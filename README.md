@@ -1,6 +1,15 @@
 # Lovely
 Uma pequena biblioteca que estende a linguagem Lua com novos recursos como classes, switches e mais
 
+# Configuração rápida
+
+1. [Baixe a última versão do `Lovely` (a API é estável :), relaxa)](https://github.com/natanael-b/Lovely2/releases/download/continuous/Lovely.lua)
+2. Coloque no seu projeto (use linkagem estática, evita dor de cabeça)
+3. Coloque isso no início do arquivo principal (isso faz ele modificar todos os `require` abaixo automaticamente assim vc só precisa chamar o Lovely uma vez)
+```lua
+require "Lovely"
+```
+
 ## Core (pseudo-instruções)
 
 ### `class`
@@ -326,3 +335,17 @@ end
 * **`string.htrim`** Remove espaços em branco em ambos os lados
 * **`string.itrim`** Remove espaços em branco duplicados dentro da string
 * **`string.trim`**  Combinação de `ltrim`,`rtrim`,`htrim` e `itrim`
+
+# Verificando se o Lovely foi carregado e qual versão foi
+
+O Lovely inclui uma variável especial com a informação da versão a existência dessa variável indica que o Lovely foi  carregado e os indicices de 1 a 3 indicam respectivamente os campos Major, Minor e Patch da versão carregada:
+
+```lua
+if __LOVELY_VERSION__ then
+  print("Lovely carregado, versão:")
+  print("  - Major:"..__LOVELY_VERSION__[1])
+  print("  - Minor:"..__LOVELY_VERSION__[2])
+  print("  - Patch:"..__LOVELY_VERSION__[3])
+else
+  print("Lovely não carregado")
+end
