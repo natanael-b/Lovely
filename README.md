@@ -70,6 +70,43 @@ teste = new "Retangulo"
 teste = Retangulo:new()
 ```
 
+### `with`
+Essa declaração permite deixar o código mais legível ao chamar sucessivamente métodos e propriedades de um objeto:
+
+```lua
+teste = new "Exemplo"
+-- Com with:
+with (teste) {
+  propriedade_1 = "valor 1";
+  propriedade_2 = "valor 2";
+  propriedade_3 = "valor 3";
+  metodo_1 = {};
+  metodo_2 = {"parâmetro 1","parâmetro"};
+  metodo_3 = {{"parâmetro 1","parâmetro"}};
+}
+
+-- Sem o with:
+teste.propriedade_1 = "valor 1"
+teste.propriedade_2 = "valor 2"
+teste.propriedade_3 = "valor 3"
+teste:metodo_1()
+teste:metodo_2("parâmetro 1","parâmetro")
+teste:metodo_3({"parâmetro 1","parâmetro"})
+
+```
+
+> Note que os argumentos dos métodos são passados através de uma `table`
+
+Outro detalhe relevante é que o `with` retorna o objeto passado permitindo seu uso com objetos imutáveis como o tipo `string`:
+
+```lua
+teste = "exemplo"
+teste = with (teste) {
+          upper = {};
+          sub = {1,2};
+        } -- EX
+```
+
 ### `type`
 
 Lovely adiciona suporte a tipos customizados através de uma manipulação da função `type`
