@@ -102,6 +102,23 @@ function new(class_name,props)
   return _ENV[class_name]:new(props)
 end
 
+function with(object)
+  return function (properties)
+           for k, v in pairs(properties) do
+             if type(object[k]) == "function" then
+               if type(object) == "string" then
+                 object = object[k](object,table.unpack(v))
+               else
+                 object[k](object,table.unpack(v))
+               end
+             else
+               object[k] = v
+             end
+           end
+           return object 
+         end
+end
+
 function literal(str)
   local special_chars = {"(", ")", ".", "%", "+", "-", "*", "?", "[", "]", "^", "$"}  
   local result = ""
