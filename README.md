@@ -84,7 +84,6 @@ with (teste) {
   metodo_2 = {"parâmetro 1","parâmetro"};
   metodo_3 = {{"parâmetro 1","parâmetro"}};
 }
-
 -- Sem o with:
 teste.propriedade_1 = "valor 1"
 teste.propriedade_2 = "valor 2"
