@@ -74,14 +74,15 @@ function class(name)
     end
 
     function new_class:new(...)
-        local newinst = setmetatable({}, self.__metatable_)
-        newinst.__metatable_ = nil
-        if type(newinst.constructor) == "function" then
-          newinst:constructor(...)
-        end
-        newinst.constructor = nil
-        return newinst
+      local newinst = setmetatable({}, self.__metatable_)
+      rawset(newinst,"__metatable_",nil)
+      if type(newinst.constructor) == "function" then
+        newinst:constructor(...)
+      end
+      rawset(newinst,"constructor",nil)
+      return newinst
     end
+
     _ENV[name] = new_class
   end
 
