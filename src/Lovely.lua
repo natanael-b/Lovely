@@ -318,8 +318,41 @@ function string.trim(s)
   return s:htrim():itrim()
 end
 
+function string.split(self,separator,preserve_quotes)
+  local tmp_line = ""
+  local found_block = false
+
+  local result = {}
+
+  for word in self:gmatch('([^'..separator..']*)') do
+    local first_char,last_char = word:sub(1,1),word:sub(-1,-1)
+
+    if (first_char == last_char and (first_char == '"' or first_char == "'")) == false then
+      if first_char == '"' or first_char == '"' then
+      found_block = true
+      tmp_line = ""
+      end
+    end
+
+    if found_block then
+      tmp_line = tmp_line..(word == "" and separator or (tmp_line == "" and word..separator or word))
+      word = nil
+      if last_char == '"' or last_char == '"' then
+        word = tmp_line
+        found_block = false
+        first_char,last_char = word:sub(1,1),word:sub(-1,-1)
+      end
+    end
+    if word then
+      word = ((first_char == last_char and (first_char == '"' or first_char == "'")) and preserve_quotes) and word:sub(2,-2) or word
+      result[#result+1] = word
+    end
+  end
+  return table.unpack(result)
+end
+
 --------------------------------------------------------------------------------------------------------------------------
 
 const {
-  __LOVELY_VERSION__={1;0;2}
+  __LOVELY_VERSION__={1;0;3}
 }
