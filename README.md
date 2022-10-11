@@ -364,6 +364,21 @@ for caractere in str:chars() do
 end
 ```
 
+* **`string.split(str,separator,strip_quotes)`**
+
+Itera trechos de uma string separados por um caractere, esse método mantém unidos os trechos delimitados por `"` e `'`, opcionalmente pode se remover as aspas no inicio e final de cada truecho passando `true` no terceiro parâmetro:
+
+```lua
+for i,excerpt in ('1,2,"3,14",4'):split(",",true) do
+  print(excerpt)
+end
+-- 1
+-- 2
+-- 3,14
+-- 4
+```
+
+
 ## String (aparadores)
 
 * **`string.ltrim`** Remove espaços em branco a esquerda
@@ -371,12 +386,6 @@ end
 * **`string.htrim`** Remove espaços em branco em ambos os lados
 * **`string.itrim`** Remove espaços em branco duplicados dentro da string
 * **`string.trim`**  Combinação de `ltrim`,`rtrim`,`htrim` e `itrim`
-
-## String (extensões)
-
-* **`string.split(str,separator,preserve_quotes)`**
-
-O método `split` divide uma string em uma lista ordenada de substrings e retorna a lista. A divisão é feita procurando um caractere preservando blocos delimitados por `"` e `'`, opcionalmente pode se preservar as aspas  passando `true` como terceiro parâmetro
 
 # Verificando se o Lovely foi carregado e qual versão foi
 
