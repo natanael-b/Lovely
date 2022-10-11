@@ -372,6 +372,12 @@ end
 * **`string.itrim`** Remove espaços em branco duplicados dentro da string
 * **`string.trim`**  Combinação de `ltrim`,`rtrim`,`htrim` e `itrim`
 
+## String (extensões)
+
+* **`string.split(str,separator,preserve_quotes)`**
+
+O método `split` divide uma string em uma lista ordenada de substrings e retorna a lista. A divisão é feita procurando um caractere preservando blocos delimitados por `"` e `'`, opcionalmente pode se preservar as aspas  passando `true` como terceiro parâmetro
+
 # Verificando se o Lovely foi carregado e qual versão foi
 
 O Lovely inclui uma variável especial com a informação da versão a existência dessa variável indica que o Lovely foi  carregado e os indicices de 1 a 3 indicam respectivamente os campos Major, Minor e Patch da versão carregada:
