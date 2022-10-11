@@ -348,7 +348,7 @@ function string.split(self,separator,preserve_quotes)
       result[#result+1] = word
     end
   end
-  return table.unpack(result)
+  return ipairs(result)
 end
 
 --------------------------------------------------------------------------------------------------------------------------
