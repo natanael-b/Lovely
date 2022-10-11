@@ -3,7 +3,7 @@ Uma pequena e poderosa biblioteca que estende a linguagem Lua com novos recursos
 
 # Configuração rápida
 
-1. [Baixe a última versão do `Lovely` (a API é estável :), relaxa)](https://github.com/natanael-b/Lovely2/releases/download/continuous/Lovely.lua)
+1. [Baixe a última versão do `Lovely` (a API é estável :), relaxa)](https://github.com/natanael-b/Lovely/releases/download/continuous/Lovely.lua)
 2. Coloque no seu projeto (use linkagem estática, evita dor de cabeça)
 3. Coloque isso no início do arquivo principal (isso faz ele modificar todos os `require` abaixo automaticamente assim vc só precisa chamar o Lovely uma vez)
 ```lua
