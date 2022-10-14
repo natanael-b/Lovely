@@ -77,7 +77,7 @@ function class(name)
       local newinst = setmetatable({}, self.__metatable_)
       rawset(newinst,"__metatable_",nil)
       if type(rawget(newinst,constructor)) == "function" then
-	rawget(newinst,constructor)(...)
+    rawget(newinst,constructor)(...)
       end
       rawset(newinst,"constructor",nil)
       return newinst
@@ -291,11 +291,11 @@ function string.lines(str,preserve_empty)
 end
 
 function string:chars()
-	local i = 0
-	return function ()
-		i = i + 1
-		return i <= self:len() and self:sub(i, i) or nil
-	end
+    local i = 0
+    return function ()
+        i = i + 1
+        return i <= self:len() and self:sub(i, i) or nil
+    end
 end
 
 function string.ltrim(s)
@@ -318,41 +318,70 @@ function string.trim(s)
   return s:htrim():itrim()
 end
 
-function string.split(self,separator,preserve_quotes)
-  local tmp_line = ""
-  local found_block = false
+function string.gfind(str,pattern,start)
+  start = tonumber(start) or 1
+  return function ()
+           local s,e = str:find(pattern,start)
+           if s then
+              start = s+1
+              return s,e
+           end
+         end
+end
 
-  local result = {}
+function string.split(str,separator,strip_quotes)
+  local last_pos = 1
+  local word     = ""
+  local result   = {}
 
-  for word in self:gmatch('([^'..separator..']*)') do
-    local first_char,last_char = word:sub(1,1),word:sub(-1,-1)
-
-    if (first_char == last_char and (first_char == '"' or first_char == "'")) == false then
-      if first_char == '"' or first_char == '"' then
-      found_block = true
-      tmp_line = ""
+  for s, e in (str..separator):gfind(literal(separator)) do
+      word = str:sub(last_pos,e-1)
+      if word == "" then
+          result[#result+1] = separator
+      else
+          result[#result+1] = word
+          result[#result+1] = separator
       end
-    end
-
-    if found_block then
-      tmp_line = tmp_line..(word == "" and separator or (tmp_line == "" and word..separator or word))
-      word = nil
-      if last_char == '"' or last_char == '"' then
-        word = tmp_line
-        found_block = false
-        first_char,last_char = word:sub(1,1),word:sub(-1,-1)
-      end
-    end
-    if word then
-      word = ((first_char == last_char and (first_char == '"' or first_char == "'")) and preserve_quotes) and word:sub(2,-2) or word
-      result[#result+1] = word
-    end
+      last_pos = s +1
   end
-  return ipairs(result)
+
+  table.remove(result,#result)
+
+  local long_word = ""
+  local quoted = false
+  local quote = ""
+  local output = {}
+
+  for i, word in ipairs(result) do
+      local first = word:sub(1,1)
+      local last = word:sub(-1,-1)
+      
+      if (first == '"' or first == "'") and first == last then
+          output[#output+1] = word:sub((strip_quotes and 2 or 1),(strip_quotes and -2 or -1))
+      elseif quoted == false then
+          if (first == '"' or first == "'") then
+              long_word=word
+              quoted = true
+              quote = first
+          else
+              if word ~= separator then
+                  output[#output+1] = word
+              end
+          end
+      else
+          long_word = long_word..word
+          if last == quote then
+              output[#output+1] = long_word:sub((strip_quotes and 2 or 1),(strip_quotes and -2 or -1))
+              long_word = ""
+              quoted = false
+          end
+      end
+  end
+  return table.unpack(output)
 end
 
 --------------------------------------------------------------------------------------------------------------------------
 
 const {
-  __LOVELY_VERSION__={1;0;3}
+  __LOVELY_VERSION__={1;0;4}
 }
