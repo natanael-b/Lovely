@@ -51,7 +51,8 @@ function class(name)
     local metamethods = {"__newindex","__mode","__call","__tostring","__unm","__concat",
                          "__len","__pairs","__ipairs","__gc","__name","__close","__le",
                          "__add","__sub","__mul","__div","__idiv","__mod","__pow","__lt",
-                         "__band","__bor","__bxor","__bnot","__shl","__shr","__eq","__index"}
+                         "__band","__bor","__bxor","__bnot","__shl","__shr","__eq",
+                         "__index","__immutable"}
 
     local new_class = props
     local new_class_mt = {}
@@ -105,9 +106,10 @@ end
 
 function with(object)
   return function (properties)
+           local meta = getmetatable(object) or {}
            for k, v in pairs(properties) do
              if type(object[k]) == "function" then
-               if type(object) == "string" then
+               if (type(object) == "string") or (meta.__immutable) then
                  object = object[k](object,table.unpack(v))
                else
                  object[k](object,table.unpack(v))
