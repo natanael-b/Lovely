@@ -377,7 +377,7 @@ function string.split(str,separator,strip_quotes)
           end
       end
   end
-  return table.unpack(output)
+  return ipairs(output)
 end
 
 --------------------------------------------------------------------------------------------------------------------------
