@@ -23,6 +23,8 @@ class "Name" {
 }
 ```
 
+> **Objetos imutáveis** <br> Caso esteja declarando uma classe que produza um objeto imutável defina a propriedade `__immutable` como `true`
+ 
 Também suporta herança:
 
 ```lua
@@ -156,10 +158,10 @@ Tabela com as classes de caractere e os valores:
 | **`p`** | Representa todas as pontuações gráficas |
 | **`s`** | Representa todos os caracteres de espaço em branco |
 | **`w`** | Combinação de `a`e `d` |
-| **`x`** | Todos os caracteres hexadecimais [0-9,a-f e A-F] |
+| **`x`** | Todos os caracteres hexadecimais `[0-9,a-f e A-F]` |
 
 > **Nota:** o retorno não será uma tabela, mas sim valores individuais
-
+ 
 ### `switch`
 
 Lovely provê um substituto para a declaração `if-elseif-else` chamada `switch`
