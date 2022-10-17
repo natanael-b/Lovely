@@ -265,6 +265,8 @@ all("number",{7,9,"6",5,7},function (v) return type(tonumber(v)) end) -- true
 
 As seguintes funções da biblioteca `string` foram reescritas para suportar caracteres Unicode
 
+> Nota: para acessar a função `string.sub` original use `string.ascii_sub`
+
 * **`string.len`**
 
 ```lua
