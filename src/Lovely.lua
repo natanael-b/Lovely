@@ -226,6 +226,8 @@ setmetatable(_ENV,_env_mt)
 
 --------------------------------------------------------------------------------------------------------------------------
 
+string.ascii_sub = string.sub
+
 function string.len(str)
   return utf8.len(str)
 end
@@ -337,7 +339,7 @@ function string.split(str,separator,strip_quotes)
   local result   = {}
 
   for s, e in (str..separator):gfind(literal(separator)) do
-      word = str:sub(last_pos,e-1)
+      word = str:ascii_sub(last_pos,e-1)
       if word == "" then
           result[#result+1] = separator
       else
@@ -355,11 +357,11 @@ function string.split(str,separator,strip_quotes)
   local output = {}
 
   for i, word in ipairs(result) do
-      local first = word:sub(1,1)
-      local last = word:sub(-1,-1)
+      local first = word:ascii_sub(1,1)
+      local last = word:ascii_sub(-1,-1)
       
       if (first == '"' or first == "'") and first == last then
-          output[#output+1] = word:sub((strip_quotes and 2 or 1),(strip_quotes and -2 or -1))
+          output[#output+1] = word:ascii_sub((strip_quotes and 2 or 1),(strip_quotes and -2 or -1))
       elseif quoted == false then
           if (first == '"' or first == "'") then
               long_word=word
@@ -373,12 +375,13 @@ function string.split(str,separator,strip_quotes)
       else
           long_word = long_word..word
           if last == quote then
-              output[#output+1] = long_word:sub((strip_quotes and 2 or 1),(strip_quotes and -2 or -1))
+              output[#output+1] = long_word:ascii_sub((strip_quotes and 2 or 1),(strip_quotes and -2 or -1))
               long_word = ""
               quoted = false
           end
       end
   end
+
   return ipairs(output)
 end
 
