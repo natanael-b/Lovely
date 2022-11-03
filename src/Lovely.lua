@@ -77,8 +77,8 @@ function class(name)
     function new_class:new(...)
       local newinst = setmetatable({}, self.__metatable_)
       rawset(newinst,"__metatable_",nil)
-      if type(rawget(newinst,constructor)) == "function" then
-    rawget(newinst,constructor)(...)
+      if type(rawget(newinst,"constructor")) == "function" then
+        rawget(newinst,"constructor")(...)
       end
       rawset(newinst,"constructor",nil)
       return newinst
