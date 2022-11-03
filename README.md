@@ -152,16 +152,6 @@ else
 end
 ```
 
-### `type`
-
-Lovely adiciona suporte a tipos customizados através de uma manipulação da função `type`
-
-```lua
-teste = new "Retangulo"
-
-type(teste) -- Retangulo
-```
-
 ### `readonly`
 
 Lovely possui mecanismos para criar tabelas somente-leitura de forma simplificada:
@@ -243,6 +233,17 @@ NOME = 123 -- Retorna um erro
 ```
 
 ## Core (funções auxiliares)
+
+### `type`
+
+Lovely adiciona suporte a tipos customizados através de uma manipulação da função `type`
+
+```lua
+teste = new "Retangulo"
+
+type(teste) -- Retangulo
+```
+
 
 ### `wrap`
 
