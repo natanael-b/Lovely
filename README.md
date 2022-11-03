@@ -119,17 +119,16 @@ function teste(nome, cor, forma)
   error("Algo deu errado!")
 end
 
-try (teste,"Argumento 1", "Argumento 2", "Argumento n")
-  : catch (
-    function (err)
-      print("Essa função é executada apenas quando ocorre algum erro")
-      print("O erro é passado pelo parametro 'err'")
-    end
-   ) : finally (
-    function ()
-      print("Essa função é sempre executada, tendo ou não erro")
-    end
-  )
+try (teste,"Argumento 1", "Argumento 2", "Argumento n") : catch (
+  function (err)
+    print("Essa função é executada apenas quando ocorre algum erro")
+    print("O erro é passado pelo parametro 'err'")
+  end
+) : finally (
+  function ()
+    print("Essa função é sempre executada, tendo ou não erro")
+  end
+)
 ```
 
 > O bloco `finally` e `catch` são opcionais, é possível passar uma função anônima como argumento
