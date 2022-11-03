@@ -122,6 +122,30 @@ function with(object)
          end
 end
 
+function try(fn,...)
+  local status, err = pcall(fn,...)
+
+  local metatable = {
+    __index = {
+      catch = function (self,f)
+                if not self.status then
+                  f(self.err)
+                end
+                return self
+              end;
+      finally = function (self,f)
+                  if type(f) == "function" then
+                    f()
+                  end
+                end
+    }
+  }
+
+  local result = {status = status, err = err}
+
+  return setmetatable(result,metatable)
+end
+
 function literal(str)
   local special_chars = {"(", ")", ".", "%", "+", "-", "*", "?", "[", "]", "^", "$"}  
   local result = ""
