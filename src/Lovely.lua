@@ -338,7 +338,7 @@ function string.split(text,sep,preserve_quotes)
   local spat, epat, buf, quoted = [=[^(['"])]=], [=[(['"])$]=]
   local blocks = {}
   
-  for str in text:gmatch("[^"..sep.."]+") do
+  for str in text:gmatch("[^"..literal(sep).."]+") do
     local squoted = str:match(spat)
     local equoted = str:match(epat)
     local escaped = str:match([=[(\*)['"]$]=])
@@ -363,5 +363,5 @@ end
 --------------------------------------------------------------------------------------------------------------------------
 
 const {
-  __LOVELY_VERSION__={1;0;6}
+  __LOVELY_VERSION__={1;0;7}
 }
