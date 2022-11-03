@@ -384,6 +384,18 @@ function string.split(text,sep,preserve_quotes)
   return ipairs(blocks)
 end
 
+function io.read(...)
+  local t = {...}
+  if t[1] == "*f" then
+    local file = io.open(t[2], "rb")
+    if not file then return nil end
+    local content = file:read "*a"
+    file:close()
+    return content
+  end
+  return io.input():read(...)
+end
+
 --------------------------------------------------------------------------------------------------------------------------
 
 const {
