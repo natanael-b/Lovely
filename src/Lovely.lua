@@ -333,56 +333,31 @@ function string.gfind(str,pattern,start)
          end
 end
 
-function string.split(str,separator,strip_quotes)
-  local last_pos = 1
-  local word     = ""
-  local result   = {}
-
-  for s, e in (str..separator):gfind(literal(separator)) do
-      word = str:ascii_sub(last_pos,e-1)
-      if word == "" then
-          result[#result+1] = separator
-      else
-          result[#result+1] = word
-          result[#result+1] = separator
-      end
-      last_pos = s +1
+function string.split(string,sep,preserve_quotes)
+  sep = sep or ";"
+  local spat, epat, buf, quoted = [=[^(['"])]=], [=[(['"])$]=]
+  local blocks = {}
+  
+  for str in text:gmatch("[^;]+") do
+    local squoted = str:match(spat)
+    local equoted = str:match(epat)
+    local escaped = str:match([=[(\*)['"]$]=])
+    if squoted and not quoted and not equoted then
+      buf, quoted = str, squoted
+    elseif buf and equoted == quoted and #escaped % 2 == 0 then
+      str, buf, quoted = buf .. sep .. str, nil, nil
+    elseif buf then
+      buf = buf .. sep .. str
+    end
+    if not buf then
+      blocks[#blocks+1] = (str:gsub(spat,""):gsub(epat,""))
+    end
   end
-
-  table.remove(result,#result)
-
-  local long_word = ""
-  local quoted = false
-  local quote = ""
-  local output = {}
-
-  for i, word in ipairs(result) do
-      local first = word:ascii_sub(1,1)
-      local last = word:ascii_sub(-1,-1)
-      
-      if (first == '"' or first == "'") and first == last then
-          output[#output+1] = word:ascii_sub((strip_quotes and 2 or 1),(strip_quotes and -2 or -1))
-      elseif quoted == false then
-          if (first == '"' or first == "'") then
-              long_word=word
-              quoted = true
-              quote = first
-          else
-              if word ~= separator then
-                  output[#output+1] = word
-              end
-          end
-      else
-          long_word = long_word..word
-          if last == quote then
-              output[#output+1] = long_word:ascii_sub((strip_quotes and 2 or 1),(strip_quotes and -2 or -1))
-              long_word = ""
-              quoted = false
-          end
-      end
+  if buf then
+    error("Missing matching quote for "..buf)
   end
-
-  return ipairs(output)
+  
+  return ipairs(blocks)
 end
 
 --------------------------------------------------------------------------------------------------------------------------
