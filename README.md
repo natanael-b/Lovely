@@ -108,6 +108,32 @@ teste = with (teste) {
         } -- EX
 ```
 
+### `try`
+
+Essa declaração implementa uma _syntax sugar_ para o `try:catch:finally`:
+
+```lua
+
+function teste(nome, cor, forma)
+  print(cor, forma, nome)
+  error("Algo deu errado!")
+end
+
+try (teste,"Argumento 1", "Argumento 2", "Argumento n")
+  : catch (
+    function (err)
+      print("Essa função é executada apenas quando ocorre algum erro")
+      print("O erro é passado pelo parametro 'err'")
+    end
+   ) : finally (
+    function ()
+      print("Essa função é sempre executada, tendo ou não erro")
+    end
+  )
+```
+
+> O bloco `finally` e `catch` são opcionais, é possível passar uma função anônima como argumento
+
 ### `type`
 
 Lovely adiciona suporte a tipos customizados através de uma manipulação da função `type`
