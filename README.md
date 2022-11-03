@@ -442,9 +442,9 @@ O Lovely inclui uma variável especial com a informação da versão a existênc
 ```lua
 if __LOVELY_VERSION__ then
   print("Lovely carregado, versão:")
-  print("  - Major:"..__LOVELY_VERSION__[1])
-  print("  - Minor:"..__LOVELY_VERSION__[2])
-  print("  - Patch:"..__LOVELY_VERSION__[3])
+  print("  - Major: "..__LOVELY_VERSION__[1])
+  print("  - Minor: "..__LOVELY_VERSION__[2])
+  print("  - Patch: "..__LOVELY_VERSION__[3])
 else
   print("Lovely não carregado")
 end
