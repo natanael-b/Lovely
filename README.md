@@ -134,6 +134,24 @@ try (teste,"Argumento 1", "Argumento 2", "Argumento n")
 
 > O bloco `finally` e `catch` são opcionais, é possível passar uma função anônima como argumento
 
+Código equivalente em Lua pura:;
+
+```lua
+function teste(nome, cor, forma)
+  print(cor, forma, nome)
+  error("Algo deu errado!")
+end
+
+local status, err = pcall(teste,"Argumento 1", "Argumento 2", "Argumento n")
+
+if not status then
+  print("Essa função é executada apenas quando ocorre algum erro")
+  print("O erro é passado pela variável 'err'")
+else
+  print("Essa função é sempre executada, tendo ou não erro")
+end
+```
+
 ### `type`
 
 Lovely adiciona suporte a tipos customizados através de uma manipulação da função `type`
