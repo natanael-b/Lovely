@@ -333,12 +333,12 @@ function string.gfind(str,pattern,start)
          end
 end
 
-function string.split(string,sep,preserve_quotes)
+function string.split(text,sep,preserve_quotes)
   sep = sep or ";"
   local spat, epat, buf, quoted = [=[^(['"])]=], [=[(['"])$]=]
   local blocks = {}
   
-  for str in text:gmatch("[^;]+") do
+  for str in text:gmatch("[^"..sep.."]+") do
     local squoted = str:match(spat)
     local equoted = str:match(epat)
     local escaped = str:match([=[(\*)['"]$]=])
@@ -363,5 +363,5 @@ end
 --------------------------------------------------------------------------------------------------------------------------
 
 const {
-  __LOVELY_VERSION__={1;0;4}
+  __LOVELY_VERSION__={1;0;6}
 }
