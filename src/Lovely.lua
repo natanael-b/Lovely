@@ -256,9 +256,21 @@ function string.len(str)
   return utf8.len(str)
 end
 
+
 function string.sub(str,s,e)
-  e = e or utf8.len(str)
-  e = 0 > e and utf8.len(str)-math.abs(e)+1 or e
+  local str_len = utf8.len(str)
+
+  if s<0 and e == nil then
+    s = str_len-math.abs(s)+1
+    e = str_len
+  elseif s<0 and e<0 then
+    s = str_len-math.abs(s)+1
+    e = str_len-math.abs(e)+1
+  elseif tonumber(e) then
+    e = e or str_len
+  elseif e<0 then 
+    e = str_len-math.abs(e)+1
+  end
 
   local result = ""
 
