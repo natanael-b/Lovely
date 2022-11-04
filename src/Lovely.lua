@@ -129,7 +129,7 @@ function try(fn,...)
     __index = {
       catch = function (self,f)
                 if not self.status then
-                  f(self.err)
+                  f(debug.traceback(self.err,2))
                 end
                 return self
               end;
