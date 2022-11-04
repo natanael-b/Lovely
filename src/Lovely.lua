@@ -369,12 +369,16 @@ function string.gfind(str,pattern,start)
          end
 end
 
-function string.split(text,sep,preserve_quotes)
+function string.split(text,sep,discard_empty)
   sep = sep or ";"
   local spat, epat, buf, quoted = [=[^(['"])]=], [=[(['"])$]=]
   local blocks = {}
+
+  text = discard_empty and text or text:gsub(sep,sep.."\0")
   
   for str in text:gmatch("[^"..literal(sep).."]+") do
+    str = str:gsub("\0","")
+    
     local squoted = str:match(spat)
     local equoted = str:match(epat)
     local escaped = str:match([=[(\*)['"]$]=])
@@ -392,7 +396,6 @@ function string.split(text,sep,preserve_quotes)
   if buf then
     error("Missing matching quote for "..buf)
   end
-  
   return ipairs(blocks)
 end
 
