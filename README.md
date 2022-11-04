@@ -414,10 +414,10 @@ end
 
 * **`string.split(str,separator,strip_quotes)`**
 
-Itera trechos de uma string separados por um caractere, esse método mantém unidos os trechos delimitados por `"` e `'`, opcionalmente pode se remover as aspas no inicio e final de cada trecho passando `true` no segundo parâmetro:
+Itera trechos de uma string separados por um caractere, esse método mantém unidos os trechos delimitados por `"` e `'`, opcionalmente pode se descartar blocos vazios passando `true` no segundo parâmetro:
 
 ```lua
-for i,excerpt in ('1,2,"3,14",4'):split(",",true) do
+for i,excerpt in ('1,2,,"3,14",4'):split(",",true) do
   print(excerpt)
 end
 -- 1
