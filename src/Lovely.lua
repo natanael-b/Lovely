@@ -52,10 +52,10 @@ function class(name)
                          "__len","__pairs","__ipairs","__gc","__name","__close","__le",
                          "__add","__sub","__mul","__div","__idiv","__mod","__pow","__lt",
                          "__band","__bor","__bxor","__bnot","__shl","__shr","__eq",
-                         "__index","__immutable"}
+                         "__index","__immutable","constructor"}
 
     local new_class = props
-    local new_class_mt = {}
+    local new_class_mt = {__methods={};__class=new_class,__indexv=new_class.__index}
 
     new_class.__metatable_ = new_class_mt
 
@@ -64,8 +64,38 @@ function class(name)
       new_class[method] = nil
     end
 
-    if new_class_mt.__index == nil then
-      new_class_mt.__index = new_class
+    for name, fn in pairs(new_class) do
+        if type(fn) == "function" then
+            new_class_mt.__methods[name] = fn
+        end
+    end
+
+    function new_class_mt.__index(self,key)
+        local instance_value = rawget(self,key)
+
+        if instance_value ~= nil then
+            return instance_value
+        end
+
+        local metatable = getmetatable(self)
+
+        local class_value = rawget(metatable.__class,key)
+
+        if class_value ~= nil then
+          return class_value
+        end
+
+        local cindex = metatable.__indexv
+
+        if type(cindex) == "function" then
+          return cindex(self,key)
+        end
+
+        if type(cindex) == "table" then
+          return cindex[key]
+        end
+
+        return cindex
     end
 
     new_class_mt.__type = name
@@ -76,12 +106,35 @@ function class(name)
 
     function new_class:new(...)
       local newinst = setmetatable({}, self.__metatable_)
-      rawset(newinst,"__metatable_",nil)
-      if type(rawget(newinst,"constructor")) == "function" then
-        rawget(newinst,"constructor")(...)
+      local constructor = getmetatable(newinst).constructor
+      if type(constructor) == "function" then
+        constructor(newinst,...)
       end
-      rawset(newinst,"constructor",nil)
       return newinst
+    end
+
+    function new_class:superClass()
+        return baseClass
+    end
+
+    function new_class:class()
+        return new_class
+    end
+
+    function new_class:isa( theClass )
+        local b_isa = false
+
+        local cur_class = new_class
+
+        while ( nil ~= cur_class ) and ( false == b_isa ) do
+            if cur_class == theClass then
+                b_isa = true
+            else
+                cur_class = cur_class:superClass()
+            end
+        end
+
+        return b_isa
     end
 
     _ENV[name] = new_class
