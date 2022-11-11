@@ -106,10 +106,14 @@ function class(name)
 
     function new_class:new(...)
       local newinst = setmetatable({}, self.__metatable_)
+      local metatable = getmetatable(newinst)
+      local new_index = metatable.__newindex
+      metatable.__newindex = nil
       local constructor = getmetatable(newinst).constructor
       if type(constructor) == "function" then
         constructor(newinst,...)
       end
+      metatable.__newindex = new_index
       return newinst
     end
 
