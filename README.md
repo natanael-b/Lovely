@@ -23,7 +23,8 @@ class "Name" {
 }
 ```
 
-> **Objetos imutáveis** <br> Caso esteja declarando uma classe que produza um objeto imutável defina a propriedade `__immutable` como `true`
+> **Objetos imutáveis** <br> Caso esteja declarando uma classe que produza um objeto imutável defina a propriedade `__immutable` como `true` <br>
+> **Propriedades tipo table** <br> Caso presise de uma propriedade tipo `table` declare ela dentro do método `constructor` <br>
  
 Também suporta herança:
 
@@ -43,6 +44,8 @@ class "Retangulo" {
   -- Opcionalmente pode se usar uma função contructor
   -- Essa função é chamada uma vez quando a classe é instanciada
   constructor = function (self,largura,altura)
+                  -- Propriedades table devem ser declaradas dentrodo constructor
+                  self.tabela = {}
                   self.largura = largura or 800
                   self.altura = altura or 600
                 end;
