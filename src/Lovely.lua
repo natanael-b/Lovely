@@ -35,7 +35,7 @@ function readonly(t)
   local proxy = {}
   local mt = {
     __index = t,
-    __type = "table:ro",
+    __name = "table:ro",
     __newindex = function (t,k,v)
                    error("attempt to update a read-only table", 2)
                  end
@@ -99,6 +99,7 @@ function class(name)
     end
 
     new_class_mt.__type = name
+    new_class_mt.__name = name
 
     if nil ~= baseClass then
         setmetatable( new_class, { __index = baseClass } )
